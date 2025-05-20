@@ -8,55 +8,12 @@ A FastAPI server for document processing using the marker-pdf library.
 - NVIDIA drivers and CUDA installed on the host
 - Docker Compose v2+
 
-## Building the Docker Image
-
-```bash
-docker build -t marker-server .
-```
-
 ## Running the Container
-
-### Using Docker Compose (Recommended)
 
 The project includes a `compose.yml` file for easy deployment:
 
 ```bash
-docker compose up -d
-```
-
-You can modify the environment variables and configuration in the `compose.yml` file:
-
-```yaml
-services:
-  marker:
-    image: marker-server
-    # or use your own image name/tag
-    # image: ghcr.io/marker-server/marker:latest
-    ports:
-      - 8000:8000
-    volumes:
-      - ./tmp:/tmp/uploads  # For temporarily storing uploaded files
-    environment:
-      - TORCH_DEVICE=cuda
-      - WORKERS=2
-      - LOG_LEVEL=info
-      - API_KEY=your_secret_api_key  # Optional: for API authentication
-    restart: always
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: 1
-              capabilities: [gpu]
-```
-
-### Using Docker Run (Alternative)
-
-If you prefer to use `docker run` directly:
-
-```bash
-docker run --gpus all -p 8000:8000 marker-server
+docker compose up --detach
 ```
 
 ## Environment Variables
