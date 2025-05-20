@@ -17,20 +17,18 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+WORKDIR /app
+
 # Install Python dependencies
-COPY pyproject.toml ./pyproject.toml
 RUN pip3 install --no-cache-dir --upgrade pip
 RUN pip3 install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
-RUN pip3 install --no-cache-dir .
+RUN pip3 install --no-cache-dir marker-pdf[full] uvicorn fastapi python-multipart
 
 # Copy application code
-COPY server /server
-COPY scripts/startup.sh /startup.sh
+COPY server .
 
-# Set permissions for startup script
-RUN chmod +x /startup.sh
-
-WORKDIR /
+# Expose the API port
+EXPOSE 8000
 
 # Launch the application
-CMD ["/startup.sh"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
