@@ -1,4 +1,4 @@
-# Marker Server
+# Albert Marker
 
 A FastAPI server for document processing using the marker-pdf library.
 
