@@ -18,20 +18,17 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies
-COPY pyproject.toml /pyproject.toml
+COPY pyproject.toml ./pyproject.toml
 RUN pip3 install --no-cache-dir --upgrade pip
 RUN pip3 install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
 RUN pip3 install --no-cache-dir .
 
 # Copy application code
-COPY --chown=marker:marker server /server
-COPY --chown=marker:marker scripts/startup.sh /startup.sh
+COPY server /server
+COPY scripts/startup.sh /startup.sh
 
 # Set permissions for startup script
 RUN chmod +x /startup.sh
-
-# Set environment variables
-ENV PYTHONPATH="/:${PYTHONPATH}"
 
 WORKDIR /
 
