@@ -5,6 +5,7 @@ import os
 import re
 import traceback
 from typing import Optional
+from uuid import uuid4
 
 from fastapi import FastAPI, File, Form, Security, UploadFile
 from fastapi.responses import JSONResponse, Response
@@ -76,10 +77,10 @@ async def convert_pdf_upload(
             content={"detail": "Invalid page_range format. Use comma-separated numbers or ranges (e.g., '0,5-10,20') or leave blank for all pages."},
         )
 
-    filepath = os.path.join(STORAGE_DIR, file.filename)
-    with open(filepath, "wb+") as upload_file:
+    filepath = os.path.join(STORAGE_DIR, f"{uuid4()}_{file.filename}")
+    with open(filepath, "wb+") as file:
         file_contents = await file.read()
-        upload_file.write(file_contents)
+        file.write(file_contents)
 
     options = {
         "filepath": filepath,
