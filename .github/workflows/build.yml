@@ -10,7 +10,7 @@ jobs:
     name: Build and push from ${{ github.ref_name }}/${{ github.sha }}
     runs-on: ubuntu-latest
     env:
-      IMAGE_NAME: ghcr.io/${{ github.repository }}/marker
+      IMAGE_NAME: ghcr.io/${{ github.repository }}/server
       IMAGE_TAG: ${{ github.sha }}
     outputs:
       commit_title: ${{ steps.get_head_commit_title.outputs.title }}

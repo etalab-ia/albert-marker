@@ -1,0 +1,26 @@
+services:
+  marker:
+    image: ghcr.io/albert-marker/server:latest
+    ports:
+      - 8000:8000
+    environment:
+      - LOG_LEVEL=debug
+    volumes:
+      - models:/root/.cache/datalab/models
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+volumes:
+  models:
