@@ -39,7 +39,10 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     lifespan=lifespan,
     title="Albert Marker",
-    description="Albert Marker is a server for the Marker library. It is a simple server that can be used to convert PDF files to text, images, and metadata.",
+    description="""Albert Marker is a FastAPI server for the Marker library designed for production environments.
+    It is a simple server that can be used to convert PDF files to text, images, and metadata.
+    Inspired by the [official Marker server script](https://github.com/VikParuchuri/marker/blob/b8a4c5d8769ed40f83d0ac9b452e85532ac7cd47/marker/scripts/server.py).
+    """,
 )
 
 
@@ -57,7 +60,7 @@ use_llm = Form(default=False, description="Use LLM to improve conversion accurac
 file = File(..., description="The PDF file to convert.")  # fmt: off
 
 
-@app.post("/parse", tags=["Parser"], response_model=ParseResponse, dependencies=[Security(check_api_key)])
+@app.post("/marker/upload", tags=["Marker"], response_model=ParseResponse, dependencies=[Security(check_api_key)])
 async def convert_pdf_upload(
     page_range: Optional[str] = page_range,
     languages: Optional[Languages] = languages,
