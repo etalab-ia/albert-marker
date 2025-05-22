@@ -7,9 +7,10 @@ services:
     ports:
       - 8003:8000
     environment:
-      - LOG_LEVEL=debug
+      - LOG_LEVEL=DEBUG
+      - API_KEY=key
     volumes:
-      - models:/.cache/datalab/models
+      - models:/root/.cache/datalab/models
     develop:
       watch:
         - action: sync+restart

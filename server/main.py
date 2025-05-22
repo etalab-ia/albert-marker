@@ -71,16 +71,16 @@ async def convert_pdf_upload(
     Parse a PDF file and return the text, images, and metadata.
     """
     # Validate page_range format if provided
-    if page_range is not None and not re.match(r"^[0-9]+(-[0-9]+)?(,[0-9]+(-[0-9]+)?)*$", page_range):
+    if page_range and not re.match(r"^[0-9]+(-[0-9]+)?(,[0-9]+(-[0-9]+)?)*$", page_range):
         return JSONResponse(
             status_code=422,
             content={"detail": "Invalid page_range format. Use comma-separated numbers or ranges (e.g., '0,5-10,20') or leave blank for all pages."},
         )
 
     filepath = os.path.join(STORAGE_DIR, f"{uuid4()}_{file.filename}")
-    with open(filepath, "wb+") as file:
+    with open(filepath, "wb+") as file_obj:
         file_contents = await file.read()
-        file.write(file_contents)
+        file_obj.write(file_contents)
 
     options = {
         "filepath": filepath,

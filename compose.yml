@@ -1,6 +1,6 @@
 services:
   marker:
-    image: ghcr.io/albert-marker/server:latest
+    image: ghcr.io/etalab-ia/albert-marker/server:latest
     ports:
       - 8000:8000
     environment:
