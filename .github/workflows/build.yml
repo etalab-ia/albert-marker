@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - main
+  release:
+    types: 
+      - published
+      - edited
 
 jobs:
   build-and-push:
@@ -11,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       IMAGE_NAME: ghcr.io/${{ github.repository }}/server
-      IMAGE_TAG: ${{ github.sha }}
+      IMAGE_TAG: ${{ github.event_name == 'release' && github.event.release.tag_name || github.sha }}
     outputs:
       commit_title: ${{ steps.get_head_commit_title.outputs.title }}
     steps:
